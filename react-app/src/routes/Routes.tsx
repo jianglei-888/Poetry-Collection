@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import ExampleView from '@/views/ExampleView';
 import NotFoundView from '@/views/NotFoundView';
+import PoemDetailView from '@/views/PoemDetailView';
+import PoemHomeView from '@/views/PoemHomeView';
 import ProtectedRoute from '@/routes/ProtectedRoute';
 import UnauthorizedView from '@/views/UnauthorizedView';
 
@@ -13,7 +14,8 @@ const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        <Route index element={<ExampleView />} />
+        <Route index element={<PoemHomeView />} />
+        <Route path="/poems/:poemId" element={<PoemDetailView />} />
         <Route path="/unauthorized" element={<UnauthorizedView />} />
 
         {/**

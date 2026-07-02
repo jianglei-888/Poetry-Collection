@@ -1,38 +1,37 @@
-import { LoginRequestDto, LoginResponseDto, SignUpRequestDto, SignUpResponseDto, SendPasswordResetRequestDto, OperationResultDto, ChangePasswordRequestDto, UpdateUserEmailDto, UpdateUserEmailResponseDto, UpdateUserNameDto, UpdateUserNameResponseDto, UpdateUserPasswordDto, UpdateUserPasswordResponseDto, GetSessionRequestDto, SessionDto } from "./AppDtos";
-import ApiClient from "./ApiClient";
+import { LoginRequestDto, LoginResponseDto, SignUpRequestDto, SignUpResponseDto, SendPasswordResetRequestDto, OperationResultDto, GetSessionRequestDto, SessionDto, ChangePasswordRequestDto, UpdateUserEmailDto, UpdateUserEmailResponseDto, UpdateUserPasswordDto, UpdateUserPasswordResponseDto, UpdateUserNameDto, UpdateUserNameResponseDto } from "./AppDtos";
+import ApiClient, { ApiClientRequestOptions } from "./ApiClient";
 
-const Login = (request: LoginRequestDto): Promise<LoginResponseDto> =>
-  ApiClient.invokeMethod<LoginResponseDto>("Api", "AuthManager", "Login", request);
+const Login = (request: LoginRequestDto, options?: ApiClientRequestOptions): Promise<LoginResponseDto> =>
+  ApiClient.invokeMethod<LoginResponseDto>("Api", "AuthManager", "Login", request, options);
 
-const SignUp = (request: SignUpRequestDto): Promise<SignUpResponseDto> =>
-  ApiClient.invokeMethod<SignUpResponseDto>("Api", "AuthManager", "SignUp", request);
+const SignUp = (request: SignUpRequestDto, options?: ApiClientRequestOptions): Promise<SignUpResponseDto> =>
+  ApiClient.invokeMethod<SignUpResponseDto>("Api", "AuthManager", "SignUp", request, options);
 
-const SendPasswordResetEmail = (request: SendPasswordResetRequestDto): Promise<OperationResultDto> =>
-  ApiClient.invokeMethod<OperationResultDto>("Api", "AuthManager", "SendPasswordResetEmail", request);
+const SendPasswordResetEmail = (request: SendPasswordResetRequestDto, options?: ApiClientRequestOptions): Promise<OperationResultDto> =>
+  ApiClient.invokeMethod<OperationResultDto>("Api", "AuthManager", "SendPasswordResetEmail", request, options);
 
-const ChangePassword = (request: ChangePasswordRequestDto): Promise<OperationResultDto> =>
-  ApiClient.invokeMethod<OperationResultDto>("Api", "AuthManager", "ChangePassword", request);
+const GetSession = (request: GetSessionRequestDto, options?: ApiClientRequestOptions): Promise<SessionDto> =>
+  ApiClient.invokeMethod<SessionDto>("Api", "AuthManager", "GetSession", request, options);
 
-const UpdateUserEmail = (request: UpdateUserEmailDto): Promise<UpdateUserEmailResponseDto> =>
-  ApiClient.invokeMethod<UpdateUserEmailResponseDto>("Api", "AuthManager", "UpdateUserEmail", request);
+const ChangePassword = (request: ChangePasswordRequestDto, options?: ApiClientRequestOptions): Promise<OperationResultDto> =>
+  ApiClient.invokeMethod<OperationResultDto>("Api", "AuthManager", "ChangePassword", request, options);
 
-const UpdateUserPassword = (request: UpdateUserPasswordDto): Promise<UpdateUserPasswordResponseDto> =>
-  ApiClient.invokeMethod<UpdateUserPasswordResponseDto>("Api", "AuthManager", "UpdateUserPassword", request);
+const UpdateUserEmail = (request: UpdateUserEmailDto, options?: ApiClientRequestOptions): Promise<UpdateUserEmailResponseDto> =>
+  ApiClient.invokeMethod<UpdateUserEmailResponseDto>("Api", "AuthManager", "UpdateUserEmail", request, options);
 
-const UpdateUserName = (request: UpdateUserNameDto): Promise<UpdateUserNameResponseDto> =>
-  ApiClient.invokeMethod<UpdateUserNameResponseDto>("Api", "AuthManager", "UpdateUserName", request);
+const UpdateUserPassword = (request: UpdateUserPasswordDto, options?: ApiClientRequestOptions): Promise<UpdateUserPasswordResponseDto> =>
+  ApiClient.invokeMethod<UpdateUserPasswordResponseDto>("Api", "AuthManager", "UpdateUserPassword", request, options);
 
-
-const GetSession = (request: GetSessionRequestDto): Promise<SessionDto> =>
-  ApiClient.invokeMethod<SessionDto>("Api", "AuthManager", "GetSession", request);
+const UpdateUserName = (request: UpdateUserNameDto, options?: ApiClientRequestOptions): Promise<UpdateUserNameResponseDto> =>
+  ApiClient.invokeMethod<UpdateUserNameResponseDto>("Api", "AuthManager", "UpdateUserName", request, options);
 
 export default {
   Login,
   SignUp,
   SendPasswordResetEmail,
+  GetSession,
   ChangePassword,
   UpdateUserEmail,
   UpdateUserPassword,
-  UpdateUserName,
-  GetSession
+  UpdateUserName
 };

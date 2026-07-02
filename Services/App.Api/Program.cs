@@ -182,8 +182,10 @@ namespace App.Api
         private static void GetScopedServices(IServiceCollection services, AppConfiguration appConfiguration, IWebHostEnvironment env)
         {
             // All orchestrating manager and engine registration
+            services.AddScoped<PoemManager>();
             services.AddScoped<AuthManager>();
             services.AddScoped<AuthenticatorEngine>();
+            services.AddScoped<LocalPoemSeedService>();
             services.AddScoped<UserContextService>();
 
             // ServiceInvoker AuthZ (shared)

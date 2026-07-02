@@ -91,9 +91,11 @@ This expanded baseline gives generated apps a stronger structural vocabulary tha
 ## Implementation Index
 
 ### Frontend Views
-- `react-app/src/views/ExampleView.tsx` — placeholder welcome page that provides a calm, domain-neutral first screen.
+- `react-app/src/views/PoemHomeView.tsx` — 公开首页，展示夜空氛围下的精选诗歌入口，并以散落式场景卡承载访客进入阅读的起点。
+- `react-app/src/views/PoemDetailView.tsx` — 公开诗歌详情页，展示单首作品的沉浸式阅读框、背景插画氛围层与逐行淡入正文。
 - `react-app/src/views/NotFoundView.tsx` — 404 fallback view.
 - `react-app/src/views/UnauthorizedView.tsx` — fallback for authenticated users who do not have permission for a protected route.
+- `react-app/src/views/ExampleView.tsx` — 保留的 starter 占位页，当前已不作为默认首页使用。
 
 ### Frontend Components
 - `react-app/src/components/ErrorBoundary.tsx` — global error boundary.
@@ -117,6 +119,8 @@ This expanded baseline gives generated apps a stronger structural vocabulary tha
 - `react-app/src/components/ui/tabs.tsx` — ShadCN tabs primitive for sectional organization.
 - `react-app/src/components/ui/tooltip.tsx` — ShadCN tooltip primitive for dense contextual hints.
 - `react-app/src/lib/utils.ts` — shared `cn()` helper for composing Tailwind class names.
+- `react-app/src/components/poems/PoemSceneShell.tsx` — 诗歌前台共用场景外壳，负责星空背景、插画铺底与整体遮罩层次。
+- `react-app/src/components/poems/PoemHomeCard.tsx` — 首页精选诗歌场景卡，承载同图裁切、柔和发光与缓慢放大反馈。
 
 ### Frontend Stores
 - `react-app/src/auth/AuthStore.ts` — auth/session state backed by `SessionDto`; stores access/refresh tokens but does not perform refresh itself.
@@ -124,6 +128,8 @@ This expanded baseline gives generated apps a stronger structural vocabulary tha
 ### Managers
 - `Services/App.Api/Managers/AuthManager.cs` — auth endpoints.
   - Methods: `Login`, `SignUp`, `SendPasswordResetEmail`, `GetSession`, `ChangePassword`, `UpdateUserEmail`, `UpdateUserPassword`, `UpdateUserName`.
+- `Services/App.Api/Managers/PoemManager.cs` — 公开诗歌读取入口。
+  - Methods: `GetFeaturedPoems`, `GetPoemDetail`.
 
 ### Engines
 - `Services/App.Api/Engines/SampleEngine.cs` — Placeholder example stateless engine; replace with real engines.
@@ -139,7 +145,14 @@ This expanded baseline gives generated apps a stronger structural vocabulary tha
 ---
 
 ## Key Flows
-- (Document major end-to-end flows at a high level)
+
+### Public poem reading flow
+1. 访客打开 `/`，前端 `PoemHomeView` 调用 `PoemManager.GetFeaturedPoems` 读取首页精选诗歌。
+2. 后端 `PoemManager` 通过 `IDatabaseAccessor` 读取被标记为 `IsFeaturedOnHome` 的诗歌，并按 `FeaturedOrder` 返回卡片所需最小数据。
+3. 本地开发环境下，`LocalPoemSeedService` 会在首次读取时补充示例诗歌数据，确保首页和详情页有真实内容可用。
+4. 首页以 `PoemHomeCard` 呈现同一张插画的局部取景，只显示诗名，并提供柔和发光与缓慢放大的进入反馈。
+5. 访客点击卡片后进入 `/poems/:poemId`，`PoemDetailView` 调用 `PoemManager.GetPoemDetail` 读取单首诗完整内容。
+6. 详情页复用同一张插画作为背景氛围层，在中央阅读框中展示标题、作者与逐行淡入的诗句。
 
 ### Backend→Frontend HTTP Streaming (NDJSON)
 This StarterKit supports a ServiceInvoker streaming RPC pattern (newline-delimited JSON over `fetch()`):

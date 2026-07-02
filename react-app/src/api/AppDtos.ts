@@ -1,11 +1,26 @@
+import { SampleEnum } from "./Enums";
 
 export interface ChangePasswordRequestDto {
   NewPassword: string;
 }
 
-export interface CreateUserRequest {
-  Name: string;
-  Email: string;
+export interface FeaturedPoemDto {
+  PoemId: string;
+  Title: string;
+  Author: string;
+  IllustrationPath: string;
+  FeaturedOrder: number;
+}
+
+export interface FeaturedPoemListDto {
+  Poems: FeaturedPoemDto[];
+}
+
+export interface GetFeaturedPoemsRequestDto {
+}
+
+export interface GetPoemDetailRequestDto {
+  PoemId: string;
 }
 
 export interface GetSessionRequestDto {
@@ -29,6 +44,14 @@ export interface OperationResultDto {
   Message: string;
 }
 
+export interface PoemDetailDto {
+  PoemId: string;
+  Title: string;
+  Author: string;
+  Lines: string[];
+  IllustrationPath: string;
+}
+
 export interface SendPasswordResetRequestDto {
   Email: string;
   RedirectUrl: string | null;
@@ -37,7 +60,7 @@ export interface SendPasswordResetRequestDto {
 export interface ServiceInvocationRequestDto {
   ManagerName: string;
   MethodName: string;
-  Parameters: any[] | null;
+  Parameters: (any | null)[] | null;
   AccessToken: string | null;
   RefreshToken: string | null;
 }
@@ -52,7 +75,7 @@ export interface ServiceInvocationResponseEnvelopeDto {
 export interface ServiceStreamingRequestDto {
   ManagerName: string;
   MethodName: string;
-  Parameters: any[] | null;
+  Parameters: (any | null)[] | null;
   AccessToken: string | null;
   RefreshToken: string | null;
 }
@@ -111,3 +134,4 @@ export interface UpdateUserPasswordResponseDto {
   Success: boolean;
   Message: string;
 }
+
