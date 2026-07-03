@@ -1,6 +1,7 @@
 ﻿# Ignore .env and sensitive config files
 /api/.env
 /api/local.settings.json
+react-app/.env
 
 # Ignore binaries and object files across projects
 **/bin/

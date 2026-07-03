@@ -105,7 +105,16 @@ export default defineConfig(async () => {
         '@/': `${srcPath}/`,
       },
     },
-    server: { port: 3000 },
+    server: {
+      port: 3000,
+      proxy: {
+        '/api': {
+          target: 'https://localhost:5123',
+          changeOrigin: true,
+          secure: false,
+        },
+      },
+    },
     test: {
       alias: { '@/': `${srcPath}/` },
       environment: 'jsdom',

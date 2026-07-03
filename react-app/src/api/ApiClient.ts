@@ -27,7 +27,7 @@ const invokeMethod = async <T>(
     RefreshToken: refreshToken,
   };
 
-  const response = await fetch(`${apiUrl}/${serviceName}/invoke`, {
+  const response = await fetch(`${apiUrl}/invoke`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(request),
@@ -74,7 +74,7 @@ const streamMethod = async (
     RefreshToken: refreshToken,
   };
 
-  const response = await fetch(`${apiUrl}/${serviceName}/stream`, {
+  const response = await fetch(`${apiUrl}/stream`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(request),
