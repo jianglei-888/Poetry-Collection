@@ -34,7 +34,7 @@ namespace App.Api.Utilities
                 {
                     Title = "月下独酌",
                     Author = "李白",
-                    IllustrationPath = "/poems/moon-river.svg",
+                    IllustrationPath = "/poems/yuexia.png",
                     IsFeaturedOnHome = true,
                     FeaturedOrder = 1,
                     Lines = new List<string>
@@ -49,7 +49,7 @@ namespace App.Api.Utilities
                 {
                     Title = "春江花月夜",
                     Author = "张若虚",
-                    IllustrationPath = "/poems/crane-cloud.svg",
+                    IllustrationPath = "/poems/chunjiang.png",
                     IsFeaturedOnHome = true,
                     FeaturedOrder = 2,
                     Lines = new List<string>
@@ -64,7 +64,7 @@ namespace App.Api.Utilities
                 {
                     Title = "青玉案·元夕",
                     Author = "辛弃疾",
-                    IllustrationPath = "/poems/lotus-lamp.svg",
+                    IllustrationPath = "/poems/qingyu.png",
                     IsFeaturedOnHome = true,
                     FeaturedOrder = 3,
                     Lines = new List<string>
