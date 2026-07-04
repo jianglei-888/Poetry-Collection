@@ -1,105 +1,105 @@
-# ServiceInvoker authentication + authorization flow (StarterKit)
+# ServiceInvoker 认证 + 授权流程（StarterKit）
 
-This document describes the StarterKit auth architecture used by manager-method RPC calls.
+本文档描述 StarterKit 中用于 manager 方法 RPC 调用的认证架构。
 
-## Key terms
+## 关键术语
 
-- **ServiceInvoker**: the single API surface that routes frontend calls to backend manager methods.
-- **Auth token manager**: `IAuthTokenManager`, implemented by `AuthManager`, owns token refresh and request authentication for ServiceInvoker.
-- **Authenticator engine**: provider-neutral token validation and common claim extraction.
-- **Auth accessor**: provider-specific auth integration. Local development and Supabase each provide token creation/refresh/validation details through `IAuthAccessor`.
-- **AuthZ**: method-level authorization through `[RequireAuthenticated]` and `[RequireRole(...)]`.
+- **ServiceInvoker**：将前端调用路由到后端 manager 方法的唯一 API 入口。
+- **Auth token manager**：`IAuthTokenManager`，由 `AuthManager` 实现，统一负责 ServiceInvoker 的 token 刷新与请求认证。
+- **Authenticator engine**：与具体提供方无关的 token 校验与常用 claim 提取逻辑。
+- **Auth accessor**：与具体提供方绑定的认证集成。本地开发与 Supabase 分别通过 `IAuthAccessor` 提供 token 生成、刷新、校验细节。
+- **AuthZ**：通过 `[RequireAuthenticated]` 与 `[RequireRole(...)]` 在方法级别做授权。
 
-## Request path
+## 请求路径
 
-Normal manager call:
+普通 manager 调用：
 
 `POST /api/invoke` → `ServiceInvokerEndpoints` → `ServiceMethodInvoker.InvokeAsync`
 
-Streaming manager call:
+流式 manager 调用：
 
 `POST /api/stream` → `ServiceInvokerEndpoints` → `ServiceMethodInvoker.InvokeStreamingAsync`
 
-## Token transport
+## Token 传输
 
-The frontend sends tokens in the ServiceInvoker request body:
+前端把 token 放在 ServiceInvoker 请求体里：
 
 - `AccessToken`
 - `RefreshToken`
 
-The backend returns tokens in the ServiceInvoker response envelope:
+后端把 token 放在 ServiceInvoker 响应信封里返回：
 
 - `AccessToken`
 - `RefreshToken`
 - `Session`
 - `Result`
 
-Request/response bodies containing tokens must not be logged or shown in UI.
+包含 token 的请求 / 响应体不得写入日志，也不得在 UI 中展示。
 
-## Backend flow
+## 后端流程
 
-For each ServiceInvoker request:
+对每个 ServiceInvoker 请求：
 
-1. `ServiceMethodInvoker` resolves the target manager method.
-2. `ServiceMethodInvoker` asks `IAuthTokenManager.EnsureAuthenticatedRequest(...)` to coordinate token refresh and request authentication.
-3. `AuthManager` validates/refreshes the request-body token pair.
-4. If an access token is available after refresh, `AuthManager` writes it to the current request as an internal `Authorization: Bearer ...` header.
-5. `AuthManager` asks the active `IAuthAccessor` for provider-specific `TokenValidationParameters`.
-6. `AuthenticatorEngine` validates the bearer token, builds `HttpContext.User`, and populates `UserContextService` with user id, email, and roles.
-7. `AttributeMethodAuthorizer` enforces method attributes.
-8. The manager method is invoked.
-9. The result is wrapped in `ServiceInvocationResponseEnvelopeDto`.
+1. `ServiceMethodInvoker` 解析目标 manager 方法。
+2. `ServiceMethodInvoker` 调用 `IAuthTokenManager.EnsureAuthenticatedRequest(...)` 协调 token 刷新与请求认证。
+3. `AuthManager` 校验 / 刷新请求体中的 token 对。
+4. 刷新后若 access token 可用，`AuthManager` 将其以内部 `Authorization: Bearer ...` 头的形式写入当前请求。
+5. `AuthManager` 向当前激活的 `IAuthAccessor` 索取该提供方专属的 `TokenValidationParameters`。
+6. `AuthenticatorEngine` 校验 bearer token，构造 `HttpContext.User`，并把 user id、email、roles 写入 `UserContextService`。
+7. `AttributeMethodAuthorizer` 校验方法上的特性。
+8. 调用 manager 方法。
+9. 结果包装成 `ServiceInvocationResponseEnvelopeDto`。
 
-## Session envelope behavior
+## Session 信封行为
 
-If a manager returns `SessionDto`, ServiceInvoker uses that returned value as `envelope.Session`.
+如果 manager 返回 `SessionDto`，ServiceInvoker 用该返回值作为 `envelope.Session`。
 
-Otherwise, ServiceInvoker falls back to a basic session derived from `HttpContext.User`.
+否则，ServiceInvoker 回退到一份基于 `HttpContext.User` 的基础 session。
 
-This lets app-specific session fields flow through session-oriented manager methods without being overwritten by generic JWT claim data.
+这让项目特有的 session 字段通过面向 session 的 manager 方法顺利流转，而不会被通用 JWT claim 数据覆盖。
 
-## Local development provider
+## 本地开发提供方
 
-`LocalAuthAccessor` owns local-provider behavior:
+`LocalAuthAccessor` 持有本地提供方行为：
 
-- local JWT issuer/audience/signing key constants
-- local JWT creation
-- local refresh behavior
-- local access-token validation parameters
+- 本地 JWT 的 issuer / audience / signing key 常量
+- 本地 JWT 生成
+- 本地刷新行为
+- 本地 access token 校验参数
 
-Local refresh validates the old access token without lifetime validation so an expired token can still identify the user while exchanging the refresh token.
+本地刷新在校验旧 access token 时不检查生命周期——这样过期 token 仍能在交换 refresh token 时识别用户。
 
-## Supabase provider
+## Supabase 提供方
 
-`AuthAccessor` owns Supabase-provider behavior:
+`AuthAccessor` 持有 Supabase 提供方行为：
 
-- Supabase login/sign-up/refresh calls
-- normalization of top-level vs nested `Session` token shapes
-- Supabase issuer and audience validation parameters
-- JWKS fetch/cache from:
+- Supabase 登录 / 注册 / 刷新调用
+- 顶层与嵌套 `Session` token 形态的归一化
+- Supabase issuer 与 audience 校验参数
+- JWKS 从以下地址获取 / 缓存：
 
 `https://{SupabaseId}.supabase.co/auth/v1/.well-known/jwks.json`
 
-JWKS keys are cached for 15 minutes.
+JWKS 密钥缓存 15 分钟。
 
-## Authorization
+## 授权
 
-Managers mark protected methods with:
+manager 用以下特性标记受保护方法：
 
 - `[RequireAuthenticated]`
 - `[RequireRole(...)]`
 
-Roles are read from Supabase/local JWT `app_metadata.roles` first. If that claim is absent, role claims are used as a fallback.
+角色优先从 Supabase / 本地 JWT 的 `app_metadata.roles` 读取；若该 claim 缺失，再回退到直接的角色 claims。
 
-Malformed `app_metadata` role JSON fails closed rather than being silently ignored.
+格式错误的 `app_metadata` 角色 JSON 会"失败关闭"（拒绝通过），而不会被悄悄忽略。
 
-## Frontend protected routes
+## 前端受保护路由
 
-`ProtectedRoute` owns protected-route session hydration:
+`ProtectedRoute` 持有受保护路由的 session 注水逻辑：
 
-- no tokens → redirect to `/unauthorized`
-- tokens but no session → call `AuthManager.GetSession({})`
-- restore timeout → show retry/sign-out UI
-- restored session → render the protected route
+- 无 token → 跳转到 `/unauthorized`
+- 有 token 但无 session → 调用 `AuthManager.GetSession({})`
+- 恢复超时 → 显示重试 / 登出 UI
+- session 恢复成功 → 渲染受保护路由
 
-The StarterKit default index route is public. Projects add protected routes only when they need auth-gated views.
+StarterKit 默认首页路由是公开的。项目只有在确实需要登录受限的视图时，再去新增受保护路由。

@@ -1,21 +1,21 @@
-# ServiceInvoker streaming RPC (NDJSON)
+# ServiceInvoker 流式 RPC（NDJSON）
 
-This StarterKit supports **streaming manager methods** over HTTP using **newline-delimited JSON (NDJSON)**.
+本 StarterKit 支持通过 HTTP 以**换行分隔 JSON（NDJSON）**实现**流式 manager 方法**。
 
-It matches the normal “call a manager method through ServiceInvoker” paradigm, except the response is a stream of JSON objects instead of a single JSON response.
+它和"通过 ServiceInvoker 调用 manager 方法"的常规模式一致，只是响应是 JSON 对象流，而不是单一 JSON 响应。
 
 ---
 
-## Overview
+## 概览
 
-- **Non-streaming** (normal):
-  - Endpoint: `POST /api/invoke`
-  - Manager method returns a single DTO
+- **非流式**（常规）：
+  - 端点：`POST /api/invoke`
+  - manager 方法返回单一 DTO
 
-- **Streaming**:
-  - Endpoint: `POST /api/stream`
-  - Manager method returns `IAsyncEnumerable<T>`
-  - Each yielded `T` item is serialized as JSON and written as a single line:
+- **流式**：
+  - 端点：`POST /api/stream`
+  - manager 方法返回 `IAsyncEnumerable<T>`
+  - 每个 `yield` 出的 `T` 元素会被序列化为 JSON 并写成单独一行：
 
 ```text
 { ...json... }\n
@@ -23,48 +23,48 @@ It matches the normal “call a manager method through ServiceInvoker” paradig
 ...
 ```
 
-Content-Type: `application/x-ndjson`
+Content-Type：`application/x-ndjson`
 
 ---
 
-## Backend requirements
+## 后端要求
 
-### Manager method signature
+### manager 方法签名
 
-A streaming manager method must return:
+流式 manager 方法必须返回：
 
 - `IAsyncEnumerable<T>`
 
-Optionally, it may accept a `CancellationToken` parameter so it can stop work when the client cancels/disconnects.
+可选地，它也可以接受一个 `CancellationToken` 参数，以便在客户端取消 / 断开时停止工作。
 
-Example signature:
+示例签名：
 
 - `MyMethod(MyRequestDto request) : IAsyncEnumerable<MyEventDto>`
 
-### Routing
+### 路由
 
-- Streaming endpoint is mapped by `Services/App.ServiceInvoker/Endpoints/ServiceInvokerEndpoints.cs`.
-- The endpoint uses the same AuthN/AuthZ components as normal ServiceInvoker calls:
+- 流式端点由 `Services/App.ServiceInvoker/Endpoints/ServiceInvokerEndpoints.cs` 映射。
+- 该端点使用与常规 ServiceInvoker 调用相同的 AuthN / AuthZ 组件：
   - `IRequestAuthenticator`
   - `IMethodAuthorizer`
 
 ---
 
-## Frontend usage
+## 前端使用
 
-Use `ApiClient.streamMethod(...)` (or a wrapper in `src/apiClients/*`) to:
+使用 `ApiClient.streamMethod(...)`（或 `src/apiClients/*` 中的封装）来做：
 
-1) POST `{ managerName, methodName, parameters }` to `/api/stream`
-2) parse each NDJSON line into an object
+1) 把 `{ managerName, methodName, parameters }` POST 到 `/api/stream`
+2) 解析每一行 NDJSON 为对象
 
-See:
-- `react-app/src/api/ApiClient.ts` (`streamMethod`)
-- (Optional demo UI) you can build a small view that calls `ApiClient.streamMethod(...)` and renders NDJSON events.
+参见：
+- `react-app/src/api/ApiClient.ts`（`streamMethod`）
+- （可选的演示 UI）可以构建一个小视图调用 `ApiClient.streamMethod(...)` 并渲染 NDJSON 事件。
 
 ---
 
-## When to use streaming vs normal calls
+## 流式 vs 常规调用的选择
 
-Use streaming when you need incremental progress updates or long-running operations.
+需要增量进度更新或长时间运行的操作时使用流式。
 
-Use normal manager calls when a single request/response is sufficient.
+单次请求 / 响应足够时，使用常规 manager 调用。

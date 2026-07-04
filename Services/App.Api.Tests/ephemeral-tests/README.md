@@ -1,5 +1,5 @@
-Ephemeral Tests
+# 临时测试（Ephemeral Tests）
 
-- This folder is intentionally empty by default.
-- The Coding Agent writes ad-hoc tests here to debug/verify behavior during a task.
-- These tests are temporary and will be cleaned automatically when completing a task.
+- 此目录默认为空。
+- Coding Agent 在任务过程中会把临时性测试写在这里，用来调试 / 验证行为。
+- 这些测试是临时性的，会在任务完成时被自动清理。
