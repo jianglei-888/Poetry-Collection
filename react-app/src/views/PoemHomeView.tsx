@@ -58,11 +58,11 @@ const PoemHomeView = () => {
   };
 
   return (
-    <PoemSceneShell illustrationPath={poems[0]?.IllustrationPath} backgroundImagePath="/poems/22.png">
+    <PoemSceneShell illustrationPath={poems[0]?.IllustrationPath} backgroundImagePath="/poems/home.png">
       <main className="min-h-screen px-6 py-6 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-7xl">
           <header className="pt-2 text-center">
-            <p className="text-[0.68rem] uppercase tracking-[0.6em] text-[#f3e8cb]/55 drop-shadow-[0_0_10px_rgba(243,232,203,0.16)]">诗歌集</p>
+            <p className="text-[0.68rem] uppercase tracking-[0.6em] text-[#f3e8cb]/90 drop-shadow-[0_0_10px_rgba(243,232,203,0.16)]">诗歌集</p>
           </header>
 
           <section className="mx-auto mt-8 max-w-6xl sm:mt-10 lg:mt-12">
@@ -91,11 +91,11 @@ const PoemHomeView = () => {
             ) : null}
 
             {!isLoading && !loadFailed && poems.length > 0 ? (
-              <div className="relative flex min-h-[calc(100vh-5rem)] items-center overflow-hidden rounded-[2.5rem] px-4 py-6 sm:px-8 lg:px-12 lg:py-8">
+              <div className="relative flex items-center overflow-hidden rounded-[2.5rem] px-4 py-6 sm:px-8 lg:px-12 lg:py-8">
                 <div className="pointer-events-none absolute left-1/2 top-[22%] h-20 w-20 -translate-x-1/2 rounded-full bg-[#fff1c8]/[0.03] blur-3xl" />
                 <div className="pointer-events-none absolute bottom-[14%] left-1/2 h-12 w-12 -translate-x-1/2 rounded-full bg-[#fff0c6]/[0.08] blur-2xl" />
 
-                <div className="relative z-10 grid w-full min-h-[28rem] items-center gap-y-8 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:min-h-[32rem] lg:grid-cols-3 lg:grid-rows-3 lg:gap-x-8 lg:gap-y-6">
+                <div className="relative z-10 grid w-full items-center gap-y-8 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-3 lg:grid-rows-3 lg:gap-x-8 lg:gap-y-6">
                 {poems.map((poem, index) => (
                   <PoemHomeCard
                     key={poem.PoemId}

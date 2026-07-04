@@ -23,7 +23,6 @@ const PoemSceneShell = ({ illustrationPath, children, className, backgroundImage
         {backgroundImagePath ? (
           <>
             <div className="absolute inset-0 bg-cover bg-center opacity-100" style={{ backgroundImage: `url(${backgroundImagePath})` }} />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,7,16,0)_0%,rgba(3,7,16,0.02)_38%,rgba(3,7,16,0.1)_72%,rgba(3,7,16,0.22)_100%)]" />
           </>
         ) : null}
 
@@ -36,8 +35,6 @@ const PoemSceneShell = ({ illustrationPath, children, className, backgroundImage
             <div className="absolute left-[69%] top-[32%] h-1.5 w-1.5 animate-[star-pulse_7.4s_ease-in-out_infinite_0.6s] rounded-full bg-[#fff5de]/62 shadow-[0_0_10px_rgba(255,244,212,0.14)]" />
             <div className="absolute left-[77%] top-[61%] h-2 w-2 animate-[star-pulse_8.2s_ease-in-out_infinite_1.4s] rounded-full bg-[#fff0c1]/62 shadow-[0_0_12px_rgba(255,244,212,0.16)]" />
             <div className="absolute left-[44%] top-[71%] h-1.5 w-1.5 animate-[star-pulse_7.1s_ease-in-out_infinite_1.8s] rounded-full bg-[#fff5dc]/60 shadow-[0_0_10px_rgba(255,244,212,0.14)]" />
-            <div className="absolute inset-x-0 bottom-[2%] h-[14vh] bg-[radial-gradient(circle_at_50%_72%,rgba(255,229,154,0.22),rgba(255,229,154,0.08)_18%,transparent_56%)]" />
-            <div className="absolute inset-x-0 bottom-[-1rem] h-[16vh] bg-[radial-gradient(ellipse_at_center,rgba(255,239,186,0.08)_0%,rgba(255,239,186,0.03)_28%,transparent_72%)] blur-2xl" />
           </>
         ) : (
           <>
@@ -50,10 +47,10 @@ const PoemSceneShell = ({ illustrationPath, children, className, backgroundImage
         {illustrationPath && !backgroundImagePath ? (
           <>
             <div
-              className="absolute inset-0 bg-cover bg-center opacity-26 blur-[2px] saturate-[0.94]"
+              className="absolute inset-0 bg-cover bg-center opacity-60"
               style={{ backgroundImage: `url(${illustrationPath})` }}
             />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,7,16,0.18)_0%,rgba(3,7,16,0.34)_26%,rgba(3,7,16,0.58)_60%,rgba(3,7,16,0.88)_100%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,7,16,0.18)_0%,rgba(3,7,16,0.3)_28%,rgba(3,7,16,0.42)_58%,rgba(3,7,16,0.55)_100%)]" />
           </>
         ) : null}
         {backgroundImagePath ? null : (

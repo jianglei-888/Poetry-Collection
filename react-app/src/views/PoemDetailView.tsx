@@ -82,6 +82,13 @@ const PoemDetailView = () => {
 
     return (
       <article className="relative overflow-hidden rounded-[2rem] border border-[#f4dfbf]/18 bg-[rgba(9,16,28,0.52)] px-6 py-8 shadow-[0_30px_120px_rgba(1,6,16,0.62)] backdrop-blur-xl sm:px-10 sm:py-10 lg:px-14 lg:py-14">
+        {poem.IllustrationPath ? (
+          <div
+            className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-70 saturate-[0.95]"
+            style={{ backgroundImage: `url(${poem.IllustrationPath})` }}
+          />
+        ) : null}
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_42%,rgba(8,15,25,0.05)_0%,rgba(8,15,25,0.35)_45%,rgba(8,15,25,0.65)_78%,rgba(8,15,25,0.78)_100%)]" />
         <div className="pointer-events-none absolute inset-0 rounded-[2rem] border border-white/5" />
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,244,219,0.07)_0%,rgba(255,244,219,0.02)_18%,rgba(8,15,25,0)_34%,rgba(8,15,25,0.16)_100%)]" />
 
@@ -104,7 +111,7 @@ const PoemDetailView = () => {
             <p
               key={`${index}-${line}`}
               className="animate-[poem-line-fade_1.2s_ease-out_forwards] opacity-0 transition duration-500 hover:text-[#fff8e8] hover:drop-shadow-[0_0_18px_rgba(255,244,214,0.42)]"
-              style={{ animationDelay: `${index * 420}ms` }}
+              style={{ animationDelay: `${index * 700}ms` }}
             >
               {line}
             </p>
@@ -115,7 +122,7 @@ const PoemDetailView = () => {
   }, [isLoading, loadFailed, poem]);
 
   return (
-    <PoemSceneShell illustrationPath={poem?.IllustrationPath}>
+    <PoemSceneShell>
       <main className="flex min-h-screen items-center justify-center px-5 py-10 sm:px-8 sm:py-14 lg:px-12">
         <div className="w-full max-w-5xl">{content}</div>
       </main>
