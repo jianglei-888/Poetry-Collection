@@ -12,6 +12,9 @@ const featuredCardClasses = [
   'lg:col-start-2 lg:row-start-2 lg:translate-y-16 lg:translate-x-1',
   'lg:col-start-1 lg:row-start-3 lg:-translate-x-4 lg:-translate-y-5',
   'lg:col-start-3 lg:row-start-3 lg:translate-x-2 lg:translate-y-2',
+  'lg:col-start-1 lg:row-start-1 lg:-translate-x-2 lg:translate-y-3',
+  'lg:col-start-3 lg:row-start-1 lg:translate-x-3 lg:-translate-y-3',
+  'lg:col-start-2 lg:row-start-3 lg:translate-y-3 lg:-translate-x-3',
 ];
 
 const PoemHomeView = () => {
