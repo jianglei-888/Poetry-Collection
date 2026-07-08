@@ -28,9 +28,16 @@
 
 - `react-app/`：前端应用
   - `react-app/src/api/ApiClient.ts`：API 与流式调用的客户端中枢
+  - `react-app/src/api/PoemManager.ts`：诗歌 API + **三层模块级缓存**（featuredCache / detailCache / inflightDetail，详见 [E:\myproject\诗歌集实施备忘.md](../诗歌集实施备忘.md) §七）
   - `react-app/src/auth/AuthStore.ts`：认证 / 会话状态
   - `react-app/src/components/ui/*`：共享 ShadCN UI 基础组件
+  - `react-app/src/components/poems/*`：诗歌专用组件
+    - `PoemSceneShell.tsx` — 场景外壳（星空 / 插画 / 遮罩）
+    - `PoemHomeCard.tsx` — 首页卡片（含 hover 预取）
   - `react-app/src/views/*`：页面级视图
+    - `PoemHomeView.tsx` — 公开首页，"夜空浸入"13 首精选
+    - `PoemDetailView.tsx` — 公开详情页，诗行 stagger 淡入
+  - `react-app/src/default.css`：全局样式 + 5 个 keyframe 动画
 - `Services/`：后端服务
   - `Services/App.Api/`：ASP.NET API 实现
   - `Services/App.ServiceInvoker/`：ServiceInvoker 路由与反射
@@ -64,9 +71,9 @@
 
 ## 文档索引
 
-- 项目总览：`README.md`
-- 诗歌集实施备忘：`E:\myproject\诗歌集实施备忘.md`（**任务完成后必须同步**）
-- 诗歌集设计文档：`E:\myproject\诗歌集设计文档.md`
+- 项目总览与脚手架说明：[README.md](README.md)
+- 诗歌集实施备忘：`E:\myproject\诗歌集实施备忘.md`（**任务完成后必须同步**——按"代码视角"摘要改动，回答"下次怎么改"）
+- 诗歌集设计文档：`E:\myproject\诗歌集设计文档.md`（产品视角，回答"为什么"）
 - 认证流程：`docs/service-invoker-auth-flow.md`
 - 流式 RPC：`docs/service-invoker-streaming.md`
 

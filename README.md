@@ -195,3 +195,24 @@
 
 ## 配置项
 - Supabase 认证 / 存储 / 数据库的配置由 StarterKit 部署 / 配置流水线提供。不要再添加重复的 `SupabaseUrl` 或 `SupabaseJwksUrl` 配置项；运行时代码在需要时会从 `SupabaseId` 派生认证 URL。
+
+---
+
+## 近期重要修复
+
+### 首页↔详情页"小卡片一闪"已修（2026-07-08）
+
+**现象**：首页点诗 → 路由切到详情页瞬间，article 容器以"标题/作者/× 按钮已就位 + 诗槽空"那一帧 paint，被用户视觉系统读成"先小卡片后大卡片"。
+
+**根因**：stagger 动画启动前 `lines` 还没就位，article 容器渲染时诗槽全空。**不能砍 stagger**（产品设计意图"诗逐行显现"），只能让诗在 mount 时已就位。
+
+**修法**：三层模块级缓存协同
+- [react-app/src/api/PoemManager.ts](react-app/src/api/PoemManager.ts) — `featuredCache` + `detailCache` + `inflightDetail`（并发去重）
+- [react-app/src/components/poems/PoemHomeCard.tsx](react-app/src/components/poems/PoemHomeCard.tsx) — 卡片 `onMouseEnter / onFocus` 触发 `prefetchPoemDetail`
+- [react-app/src/views/PoemDetailView.tsx](react-app/src/views/PoemDetailView.tsx) — `useState` 初值从 `getDetailCache` / `getFeaturedCache` 拿
+
+**结果**：鼠标 hover 后再点诗，详情页 mount 首帧就是完整诗，stagger 启动走 9 秒逐行显现，**没有"诗槽空"那一帧**。
+
+**未覆盖的边缘场景**：触屏 / 键盘 Tab 直按 Enter（无 hover），prefetch 不触发，详情页仍会出现"小卡片"一闪。
+
+**详见**：`E:\myproject\诗歌集实施备忘.md` 第七章。
