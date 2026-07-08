@@ -164,8 +164,8 @@ namespace App.Api.Utilities
                     Title = "登鹳雀楼",
                     Author = "王之涣",
                     IllustrationPath = "/poems/07_deng_guanque_lou.png",
-                    IsFeaturedOnHome = false,
-                    FeaturedOrder = 0,
+                    IsFeaturedOnHome = true,
+                    FeaturedOrder = 10,
                     Lines = new List<string>
                     {
                         "白日依山尽，黄河入海流。",
@@ -192,8 +192,8 @@ namespace App.Api.Utilities
                     Title = "天净沙·秋思",
                     Author = "马致远",
                     IllustrationPath = "/poems/09_tianjingsha.png",
-                    IsFeaturedOnHome = false,
-                    FeaturedOrder = 0,
+                    IsFeaturedOnHome = true,
+                    FeaturedOrder = 11,
                     Lines = new List<string>
                     {
                         "枯藤老树昏鸦，小桥流水人家，古道西风瘦马。",
@@ -256,8 +256,8 @@ namespace App.Api.Utilities
                     Title = "小池",
                     Author = "杨万里",
                     IllustrationPath = "/poems/13_xiao_chi.png",
-                    IsFeaturedOnHome = false,
-                    FeaturedOrder = 0,
+                    IsFeaturedOnHome = true,
+                    FeaturedOrder = 12,
                     Lines = new List<string>
                     {
                         "泉眼无声惜细流，树阴照水爱晴柔。",
@@ -284,8 +284,8 @@ namespace App.Api.Utilities
                     Title = "九月九日忆山东兄弟",
                     Author = "王维",
                     IllustrationPath = "/poems/15_jiuyue_jiuri.png",
-                    IsFeaturedOnHome = false,
-                    FeaturedOrder = 0,
+                    IsFeaturedOnHome = true,
+                    FeaturedOrder = 13,
                     Lines = new List<string>
                     {
                         "独在异乡为异客，每逢佳节倍思亲。",
