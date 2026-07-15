@@ -71,7 +71,8 @@
 
 ## 文档索引
 
-- 项目总览与脚手架说明：[README.md](README.md)
+- 对外产品页（GitHub 仓库首页展示）：[README.md](README.md)
+- 内部实施索引（脚手架分层 / 文件清单 / 关键流程 / 认证 / 近期修复）：[docs/implementation-notes.md](docs/implementation-notes.md)
 - 诗歌集实施备忘：`E:\myproject\诗歌集实施备忘.md`（**任务完成后必须同步**——按"代码视角"摘要改动，回答"下次怎么改"）
 - 诗歌集设计文档：`E:\myproject\诗歌集设计文档.md`（产品视角，回答"为什么"）
 - 认证流程：`docs/service-invoker-auth-flow.md`
@@ -79,10 +80,11 @@
 
 ## 优先阅读
 
-1. `README.md`：了解 StarterKit 整体设计与"基础设施 vs 占位"的区分。
-2. `react-app/src/api/ApiClient.ts`：理解前端 API 与流式调用方式。
-3. `Services/App.ServiceInvoker/Endpoints/ServiceInvokerEndpoints.cs` 与 `Services/App.ServiceInvoker/Reflection/ServiceMethodInvoker.cs`：理解后端路由模型。
-4. `Services/App.Api/Managers/AuthManager.cs` 与 `Services/App.Api/Managers/PoemManager.cs`：当前认证与诗歌读取的实现。
+1. `README.md`：了解这是面向访客的产品页。
+2. `docs/implementation-notes.md`：了解 StarterKit 整体设计与"基础设施 vs 占位"的区分。
+3. `react-app/src/api/ApiClient.ts`：理解前端 API 与流式调用方式。
+4. `Services/App.ServiceInvoker/Endpoints/ServiceInvokerEndpoints.cs` 与 `Services/App.ServiceInvoker/Reflection/ServiceMethodInvoker.cs`：理解后端路由模型。
+5. `Services/App.Api/Managers/AuthManager.cs` 与 `Services/App.Api/Managers/PoemManager.cs`：当前认证与诗歌读取的实现。
 
 ## Agent 行为
 
